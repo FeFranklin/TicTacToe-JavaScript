@@ -1,7 +1,6 @@
 import './App.css';
 import React, { Component } from 'react';
 
-
 function Square(props){
   return(
     <button className="square" onClick={props.onClick}>
@@ -51,6 +50,13 @@ class Board extends Component {
       xIsNext: !this.state.xIsNext,
     });
   }
+
+  onHandleReset() {
+    this.setState({
+      squares: Array(9).fill(null),
+      xIsNext: !this.state.xIsNext
+    })
+  }
   
   renderSquare(i) {
     return (
@@ -63,32 +69,37 @@ class Board extends Component {
 
   render() {
     const winner = calculateWinner(this.state.squares);
-      let status;
-      if(winner){
-          status = 'Winner: ' + winner;
-      } else {
-          status = 'Next Player: ' + (this.state.xIsNext ? 'X' : 'O');
-      }
+    let status;
+    if(winner){
+        status = 'Winner: ' + winner;
+    } else {
+        status = 'Next Player: ' + (this.state.xIsNext ? 'X' : 'O');
+    }
 
     return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
+      <>
+        <div className="game-board">
+          <p className="status">{status}</p>
+          <div className="board-row">
+            {this.renderSquare(0)}
+            {this.renderSquare(1)}
+            {this.renderSquare(2)}
+          </div>
+          <div className="board-row">
+            {this.renderSquare(3)}
+            {this.renderSquare(4)}
+            {this.renderSquare(5)}
+          </div>
+          <div className="board-row">
+            {this.renderSquare(6)}
+            {this.renderSquare(7)}
+            {this.renderSquare(8)}
+          </div>
         </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
+        <div className="game-info">
+          <button onClick={() => this.onHandleReset()} alt="restart button">RESTART</button>
         </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
+      </>
     );
   }
 }
@@ -97,12 +108,7 @@ class Game extends Component {
   render() {
     return (
       <div className="game">
-        <div className="game-board">
-          <Board />
-        </div>
-        <div className="game-info">
-          <ol>{/* TODO */}</ol>
-        </div>
+        <Board />
       </div>
     );
   }
